@@ -4,6 +4,7 @@ Repository to test some types of technologies used for the Network of Distribute
 - Node-red
 - Spark
 - MPI
+- ContikiNG (IOT)
 
 For each technology we developed examples to understand and apply the key concepts.
 
