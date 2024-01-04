@@ -1,0 +1,8 @@
+d:\kafka projects\NSDS_kafka_tutorial\src\main\java\it\polimi\middleware\kafka\transactional\TransactionalConsumer.java
+d:\kafka projects\NSDS_kafka_tutorial\src\main\java\it\polimi\middleware\kafka\atomic_forward\AtomicForwarder.java
+d:\kafka projects\NSDS_kafka_tutorial\src\main\java\it\polimi\middleware\kafka\basic\BasicProducer.java
+d:\kafka projects\NSDS_kafka_tutorial\src\main\java\it\polimi\middleware\kafka\transactional\TransactionalProducer.java
+d:\kafka projects\NSDS_kafka_tutorial\src\main\java\it\polimi\middleware\kafka\admin\TopicManager.java
+d:\kafka projects\NSDS_kafka_tutorial\src\main\java\it\polimi\middleware\kafka\basic\BasicConsumer.java
+d:\kafka projects\NSDS_kafka_tutorial\src\main\java\it\polimi\middleware\kafka\basic\BasicConsumerManual.java
+d:\kafka projects\NSDS_kafka_tutorial\src\main\java\it\polimi\middleware\kafka\atomic_forward\IdempotentProducer.java

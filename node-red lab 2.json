@@ -1,0 +1,275 @@
+[
+    {
+        "id": "0f878789f06582b5",
+        "type": "tab",
+        "label": "Exercise 8",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "e807c082b0b6d000",
+        "type": "chatbot-telegram-receive",
+        "z": "0f878789f06582b5",
+        "bot": "39a9ae0bd3c382f7",
+        "botProduction": "",
+        "x": 130,
+        "y": 60,
+        "wires": [
+            [
+                "9b0510a30b7e0565"
+            ]
+        ]
+    },
+    {
+        "id": "479846ca84a0d730",
+        "type": "chatbot-telegram-send",
+        "z": "0f878789f06582b5",
+        "bot": "39a9ae0bd3c382f7",
+        "botProduction": "",
+        "track": false,
+        "passThrough": false,
+        "errorOutput": false,
+        "outputs": 0,
+        "x": 890,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "5184967ff9bf82a8",
+        "type": "debug",
+        "z": "0f878789f06582b5",
+        "name": "Show Incoming Msg!",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 660,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "abfd8bd913d37d1e",
+        "type": "chatbot-message",
+        "z": "0f878789f06582b5",
+        "name": "temperature text",
+        "message": [
+            {
+                "message": "the temperature in {{payload.location}} is {{payload.tempc}}"
+            }
+        ],
+        "language": "none",
+        "x": 820,
+        "y": 140,
+        "wires": [
+            [
+                "479846ca84a0d730"
+            ]
+        ]
+    },
+    {
+        "id": "c6e87eeff72e4c84",
+        "type": "function",
+        "z": "0f878789f06582b5",
+        "name": "extract location info",
+        "func": "let word = /\\w+/g;\nlet matches = msg.payload.content.match(word);\n\nlet matched_city = matches[matches.length-1];\n\nmsg.location = {\n    city: matched_city,\n    country: \"IT\"\n}\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 390,
+        "y": 140,
+        "wires": [
+            [
+                "924da772232b0ccb"
+            ]
+        ]
+    },
+    {
+        "id": "715f8a89f1b564f8",
+        "type": "function",
+        "z": "0f878789f06582b5",
+        "name": "extract username",
+        "func": "let last_word = /\\b(\\w+)$/\nlet matched_username = msg.payload.content.match(last_word)[1];\n\nmsg.payload = matched_username;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 390,
+        "y": 220,
+        "wires": [
+            [
+                "4a4c354270739580",
+                "fd1a98d7834de98a",
+                "5184967ff9bf82a8"
+            ]
+        ]
+    },
+    {
+        "id": "2e26b4629ab88645",
+        "type": "function",
+        "z": "0f878789f06582b5",
+        "name": "default response",
+        "func": "delete msg.ts;\ndelete msg.transport;\n\nmsg.payload = \"i didn't understand\";\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 360,
+        "wires": [
+            [
+                "f3e01e2f8d8b4b12"
+            ]
+        ]
+    },
+    {
+        "id": "924da772232b0ccb",
+        "type": "openweathermap",
+        "z": "0f878789f06582b5",
+        "name": "",
+        "wtype": "current",
+        "lon": "",
+        "lat": "",
+        "city": "",
+        "country": "",
+        "language": "en",
+        "x": 610,
+        "y": 140,
+        "wires": [
+            [
+                "abfd8bd913d37d1e"
+            ]
+        ]
+    },
+    {
+        "id": "9b0510a30b7e0565",
+        "type": "switch",
+        "z": "0f878789f06582b5",
+        "name": "select message type",
+        "property": "payload.content",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "regex",
+                "v": "What is the temperature in \\w+?",
+                "vt": "str",
+                "case": false
+            },
+            {
+                "t": "regex",
+                "v": "My name is \\w+",
+                "vt": "str",
+                "case": false
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 3,
+        "x": 140,
+        "y": 220,
+        "wires": [
+            [
+                "c6e87eeff72e4c84"
+            ],
+            [
+                "715f8a89f1b564f8"
+            ],
+            [
+                "2e26b4629ab88645"
+            ]
+        ]
+    },
+    {
+        "id": "f3e01e2f8d8b4b12",
+        "type": "chatbot-message",
+        "z": "0f878789f06582b5",
+        "name": "default text",
+        "message": [
+            {
+                "message": "i didn't get it"
+            }
+        ],
+        "language": "none",
+        "x": 570,
+        "y": 360,
+        "wires": [
+            [
+                "479846ca84a0d730"
+            ]
+        ]
+    },
+    {
+        "id": "4a4c354270739580",
+        "type": "chatbot-message",
+        "z": "0f878789f06582b5",
+        "name": "hello text",
+        "message": [
+            {
+                "message": "Hello {{payload}}"
+            }
+        ],
+        "language": "none",
+        "x": 620,
+        "y": 220,
+        "wires": [
+            [
+                "479846ca84a0d730"
+            ]
+        ]
+    },
+    {
+        "id": "fd1a98d7834de98a",
+        "type": "file",
+        "z": "0f878789f06582b5",
+        "name": "save username",
+        "filename": "/data/usernames.txt",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 600,
+        "y": 280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "39a9ae0bd3c382f7",
+        "type": "chatbot-telegram-node",
+        "botname": "marcheobot",
+        "usernames": "",
+        "polling": "1000",
+        "store": "fb73fed7c065eeec",
+        "log": "",
+        "debug": false,
+        "skipMediaFiles": false,
+        "webHook": "",
+        "connectMode": "polling",
+        "storeMessages": true,
+        "enableMissionControl": false,
+        "inspectMessages": true,
+        "chatbotId": ""
+    },
+    {
+        "id": "fb73fed7c065eeec",
+        "type": "chatbot-context-store",
+        "name": "",
+        "contextStorage": "memory",
+        "contextParams": ""
+    }
+]

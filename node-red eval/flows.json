@@ -1,0 +1,539 @@
+[
+    {
+        "id": "1e901b9f5699d826",
+        "type": "tab",
+        "label": "eval lab",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "5d5bd5f26e7744ec",
+        "type": "chatbot-telegram-receive",
+        "z": "1e901b9f5699d826",
+        "bot": "39a9ae0bd3c382f7",
+        "botProduction": "",
+        "x": 130,
+        "y": 160,
+        "wires": [
+            [
+                "9057b2271c9a12b1"
+            ]
+        ]
+    },
+    {
+        "id": "4fd2eef7cd1e62ee",
+        "type": "chatbot-telegram-send",
+        "z": "1e901b9f5699d826",
+        "bot": "39a9ae0bd3c382f7",
+        "botProduction": "",
+        "track": false,
+        "passThrough": false,
+        "errorOutput": false,
+        "outputs": 0,
+        "x": 1430,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "212dd4e30d64e895",
+        "type": "chatbot-message",
+        "z": "1e901b9f5699d826",
+        "name": "generate response",
+        "message": [
+            {
+                "message": ""
+            }
+        ],
+        "language": "none",
+        "x": 1190,
+        "y": 240,
+        "wires": [
+            [
+                "4fd2eef7cd1e62ee",
+                "62ae71ab61ebcef4"
+            ]
+        ]
+    },
+    {
+        "id": "f9a9425435e7c473",
+        "type": "function",
+        "z": "1e901b9f5699d826",
+        "name": "extract location info",
+        "func": "let words = msg.payload.content.split(\" \");\n\nlet matched_city = words[words.length-1].split(\"?\")[0];\n\nif(matched_city != \"Rome\" && matched_city != \"Roma\"\n && matched_city != \"Milan\" && matched_city != \"Milano\"){\n    return [null, msg];\n }\n\nmsg.location = {\n    city: matched_city,\n    country: \"IT\"\n}\n\n// 0 identifies the forecast for tomorrow\nmsg.day = 0;\n\nreturn [msg, null];",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 120,
+        "wires": [
+            [
+                "a53b617cfe2f47c8"
+            ],
+            [
+                "6eca51406480bdec"
+            ]
+        ]
+    },
+    {
+        "id": "0ab963184ad21746",
+        "type": "function",
+        "z": "1e901b9f5699d826",
+        "name": "default response",
+        "func": "delete msg.ts;\ndelete msg.transport;\n\nmsg.payload = \"i didn't understand\";\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 420,
+        "wires": [
+            [
+                "79761afccaf981f7"
+            ]
+        ]
+    },
+    {
+        "id": "a53b617cfe2f47c8",
+        "type": "openweathermap",
+        "z": "1e901b9f5699d826",
+        "name": "forecast",
+        "wtype": "forecast",
+        "lon": "",
+        "lat": "",
+        "city": "",
+        "country": "",
+        "language": "en",
+        "x": 780,
+        "y": 160,
+        "wires": [
+            [
+                "5ef72f1561c2da38"
+            ]
+        ]
+    },
+    {
+        "id": "9057b2271c9a12b1",
+        "type": "switch",
+        "z": "1e901b9f5699d826",
+        "name": "select message type",
+        "property": "payload.content",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "regex",
+                "v": "what's tomorrow forecast in \\w+?",
+                "vt": "str",
+                "case": true
+            },
+            {
+                "t": "regex",
+                "v": "what's the forecast in \\w+ in two days?",
+                "vt": "str",
+                "case": true
+            },
+            {
+                "t": "regex",
+                "v": "what's the expected wind speed tomorrow in \\w+?",
+                "vt": "str",
+                "case": true
+            },
+            {
+                "t": "regex",
+                "v": "What’s the expected wind speed in two days in \\w+?",
+                "vt": "str",
+                "case": true
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 5,
+        "x": 180,
+        "y": 300,
+        "wires": [
+            [
+                "0aa4c4c81f82b454"
+            ],
+            [
+                "0aa4c4c81f82b454"
+            ],
+            [
+                "a5a5002c70a07161"
+            ],
+            [
+                "a5a5002c70a07161"
+            ],
+            [
+                "0ab963184ad21746"
+            ]
+        ]
+    },
+    {
+        "id": "79761afccaf981f7",
+        "type": "chatbot-message",
+        "z": "1e901b9f5699d826",
+        "name": "default response",
+        "message": [
+            {
+                "message": "unknown query"
+            }
+        ],
+        "language": "none",
+        "x": 800,
+        "y": 420,
+        "wires": [
+            [
+                "4fd2eef7cd1e62ee"
+            ]
+        ]
+    },
+    {
+        "id": "7239ce6e541bd616",
+        "type": "function",
+        "z": "1e901b9f5699d826",
+        "name": "extract location info",
+        "func": "let words = msg.payload.content.split(\" \");\n\nlet matched_city = words[4];\n\nif(matched_city != \"Rome\" && matched_city != \"Roma\"\n && matched_city != \"Milan\" && matched_city != \"Milano\"){\n    return [null, msg];\n }\n\nmsg.location = {\n    city: matched_city,\n    country: \"IT\"\n}\n\n// 1 identifies the forecast in two days\nmsg.day = 1;\n\nreturn [msg, null];",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 200,
+        "wires": [
+            [
+                "a53b617cfe2f47c8"
+            ],
+            [
+                "6eca51406480bdec"
+            ]
+        ]
+    },
+    {
+        "id": "5ef72f1561c2da38",
+        "type": "function",
+        "z": "1e901b9f5699d826",
+        "name": "forecast response",
+        "func": "let forecast = flow.get(\"lastForecast\");\n\nlet current_forecast;\n\nif(msg.day == 0){\n    // tomorrow forecast\n    current_forecast = msg.payload[7].weather[0].description;\n    msg.payload = \"Tomorrow's forecast for \" + msg.location.city + \" is \" + current_forecast + \"!\";\n}else if(msg.day == 1){\n    // two days forecast\n    current_forecast = msg.payload[15].weather[0].description;\n    msg.payload = \"the forecast in two days for \" + msg.location.city + \" is \" + current_forecast + \"!\";\n}\n\nif(current_forecast == forecast[msg.location.city][msg.day]){\n    msg.payload = msg.payload + \" It is the same as the last time I was asked!\";\n}else{\n    msg.payload = msg.payload + \" It changed since the last time I was asked!\";\n}\n\nforecast[msg.location.city][msg.day] = current_forecast;\n\nflow.set(\"lastForecast\", forecast);\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 970,
+        "y": 160,
+        "wires": [
+            [
+                "212dd4e30d64e895"
+            ]
+        ]
+    },
+    {
+        "id": "f05bfaa00fea5e47",
+        "type": "openweathermap",
+        "z": "1e901b9f5699d826",
+        "name": "wind speed",
+        "wtype": "forecast",
+        "lon": "",
+        "lat": "",
+        "city": "",
+        "country": "",
+        "language": "en",
+        "x": 750,
+        "y": 300,
+        "wires": [
+            [
+                "665c2899de8d12a4"
+            ]
+        ]
+    },
+    {
+        "id": "a5a5002c70a07161",
+        "type": "function",
+        "z": "1e901b9f5699d826",
+        "name": "extract location info",
+        "func": "let words = msg.payload.content.split(\" \");\n\nlet matched_city = words[words.length-1].split(\"?\")[0];\n\nif(matched_city != \"Rome\" && matched_city != \"Roma\"\n && matched_city != \"Milan\" && matched_city != \"Milano\"){\n    return [null, msg];\n }\n\nmsg.location = {\n    city: matched_city,\n    country: \"IT\"\n}\n\nif(msg.payload.content.includes(\"tomorrow\")){\n    msg.day = 0;\n}else if(msg.payload.content.includes(\"two days\")){\n    msg.day = 1;\n}\n\nreturn [msg, null];",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 300,
+        "wires": [
+            [
+                "f05bfaa00fea5e47"
+            ],
+            [
+                "6eca51406480bdec"
+            ]
+        ]
+    },
+    {
+        "id": "665c2899de8d12a4",
+        "type": "function",
+        "z": "1e901b9f5699d826",
+        "name": "wind speed response",
+        "func": "let speed = flow.get(\"lastSpeed\");\n\nlet current_speed;\n\nif(msg.day == 0){\n    // tomorrow forecast\n    current_speed = msg.payload[7].wind.speed;\n    msg.payload = \"Tomorrow's expected wind speed for \"\n    + msg.location.city + \" is \" + current_speed + \"!\";\n}else if(msg.day == 1){\n    // two days forecast\n    current_speed = msg.payload[15].wind.speed;\n    msg.payload = \"the expected wind speed in two days for \"\n    + msg.location.city + \" is \" + current_speed + \"!\";\n}\n\nif (current_speed == speed[msg.location.city][msg.day]){\n    msg.payload = msg.payload + \" It is the same as the last time I was asked!\";\n}else{\n    msg.payload = msg.payload + \" It changed since the last time I was asked!\";\n}\n\nspeed[msg.location.city][msg.day] = current_speed;\n\nflow.set(\"lastSpeed\", speed);\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 960,
+        "y": 300,
+        "wires": [
+            [
+                "212dd4e30d64e895"
+            ]
+        ]
+    },
+    {
+        "id": "0aa4c4c81f82b454",
+        "type": "switch",
+        "z": "1e901b9f5699d826",
+        "name": "",
+        "property": "payload.content",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "cont",
+                "v": "tomorrow",
+                "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "two days",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 390,
+        "y": 160,
+        "wires": [
+            [
+                "f9a9425435e7c473"
+            ],
+            [
+                "7239ce6e541bd616"
+            ]
+        ]
+    },
+    {
+        "id": "62ae71ab61ebcef4",
+        "type": "function",
+        "z": "1e901b9f5699d826",
+        "name": "increment message counter",
+        "func": "let messageCount = flow.get(\"messageCount\");\n\nmessageCount++;\nflow.set(\"messageCount\", messageCount);\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1460,
+        "y": 240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "678f676b1f74a810",
+        "type": "inject",
+        "z": "1e901b9f5699d826",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "60",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 190,
+        "y": 640,
+        "wires": [
+            [
+                "1fc1281477c1a8ba"
+            ]
+        ]
+    },
+    {
+        "id": "cb9cc437e6aac05d",
+        "type": "function",
+        "z": "1e901b9f5699d826",
+        "name": "reset counter",
+        "func": "flow.set(\"messageCount\", 0);\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 870,
+        "y": 640,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "7a0f87686c6346e3",
+        "type": "file",
+        "z": "1e901b9f5699d826",
+        "name": "",
+        "filename": "/data/messagesLog.txt",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "true",
+        "encoding": "none",
+        "x": 660,
+        "y": 640,
+        "wires": [
+            [
+                "cb9cc437e6aac05d"
+            ]
+        ]
+    },
+    {
+        "id": "1fc1281477c1a8ba",
+        "type": "function",
+        "z": "1e901b9f5699d826",
+        "name": "retrieve message count",
+        "func": "//messageCount is initialized to zero in on start\n\nmsg.payload = flow.get(\"messageCount\");\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "// Code added here will be run once\n// whenever the node is started.\n\nflow.set(\"messageCount\", 0);",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 640,
+        "wires": [
+            [
+                "7a0f87686c6346e3",
+                "2739e6f09d4808f7"
+            ]
+        ]
+    },
+    {
+        "id": "6eca51406480bdec",
+        "type": "chatbot-message",
+        "z": "1e901b9f5699d826",
+        "name": "incorrect city response",
+        "message": [
+            {
+                "message": "incorrect city"
+            }
+        ],
+        "language": "none",
+        "x": 820,
+        "y": 360,
+        "wires": [
+            [
+                "4fd2eef7cd1e62ee"
+            ]
+        ]
+    },
+    {
+        "id": "d7d7076615b14278",
+        "type": "function",
+        "z": "1e901b9f5699d826",
+        "name": "set forecast and wind speed context variables",
+        "func": "\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "// Code added here will be run once\n// whenever the node is started.\n\nflow.set(\"lastForecast\", { Milan: [null, null], Rome: [null, null] });\nflow.set(\"lastSpeed\", { Milan: [null, null], Rome: [null, null] });",
+        "finalize": "",
+        "libs": [],
+        "x": 290,
+        "y": 560,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "2739e6f09d4808f7",
+        "type": "debug",
+        "z": "1e901b9f5699d826",
+        "name": "print message counter",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 660,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "446ecea01285f07c",
+        "type": "comment",
+        "z": "1e901b9f5699d826",
+        "name": "forecast branch",
+        "info": "",
+        "x": 360,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "9df54a352da32610",
+        "type": "comment",
+        "z": "1e901b9f5699d826",
+        "name": "wind speed branch",
+        "info": "",
+        "x": 470,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "39a9ae0bd3c382f7",
+        "type": "chatbot-telegram-node",
+        "botname": "marcheobot",
+        "usernames": "",
+        "polling": "1000",
+        "store": "fb73fed7c065eeec",
+        "log": "",
+        "debug": false,
+        "skipMediaFiles": false,
+        "webHook": "",
+        "connectMode": "polling",
+        "storeMessages": true,
+        "enableMissionControl": false,
+        "inspectMessages": true,
+        "chatbotId": ""
+    },
+    {
+        "id": "fb73fed7c065eeec",
+        "type": "chatbot-context-store",
+        "name": "",
+        "contextStorage": "memory",
+        "contextParams": ""
+    }
+]

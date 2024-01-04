@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/pom.xml" />
+      </list>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_21" default="true" project-jdk-name="21" project-jdk-type="JavaSDK" />
+  <component name="WindowStateProjectService">
+    <state x="170" y="57" key="SettingsEditor" timestamp="1699877919880">
+      <screen x="0" y="0" width="1333" height="849" />
+    </state>
+    <state x="170" y="57" key="SettingsEditor/0.0.1333.849" timestamp="1699877919880" />
+  </component>
+</project>

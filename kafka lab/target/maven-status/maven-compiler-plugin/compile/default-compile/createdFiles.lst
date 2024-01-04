@@ -1,0 +1,8 @@
+it\polimi\middleware\kafka\atomic_forward\AtomicForwarder.class
+it\polimi\middleware\kafka\basic\BasicConsumer.class
+it\polimi\middleware\kafka\atomic_forward\IdempotentProducer.class
+it\polimi\middleware\kafka\transactional\TransactionalConsumer.class
+it\polimi\middleware\kafka\admin\TopicManager.class
+it\polimi\middleware\kafka\transactional\TransactionalProducer.class
+it\polimi\middleware\kafka\basic\BasicProducer.class
+it\polimi\middleware\kafka\basic\BasicConsumerManual.class

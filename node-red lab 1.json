@@ -1,0 +1,691 @@
+[
+    {
+        "id": "e06805297e78950e",
+        "type": "tab",
+        "label": "Exercise 1 and 2",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "76059dd59d7df63b",
+        "type": "tab",
+        "label": "exercise 3",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "b39ad806d78263cb",
+        "type": "tab",
+        "label": "Exercise 4",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "2809c54f484ce6d2",
+        "type": "tab",
+        "label": "Exercise 5",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "c4974ff7cb926127",
+        "type": "tab",
+        "label": "Exercise 6",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "385a8b55f9e851d4",
+        "type": "tab",
+        "label": "Exercise 7",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "197b9301a5172daf",
+        "type": "mqtt-broker",
+        "name": "",
+        "broker": "mqtt.neslab.it",
+        "port": "3200",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "false",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closeRetain": "false",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willRetain": "false",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "20f9b5c22a82e2f1",
+        "type": "inject",
+        "z": "e06805297e78950e",
+        "name": "Hello World!",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "cc",
+                "v": "simone.diienno@mail.polimi.it",
+                "vt": "str"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            },
+            {
+                "p": "to",
+                "v": "marco10.barbieri@mail.polimi.it",
+                "vt": "str"
+            },
+            {
+                "p": "timestamp",
+                "v": "",
+                "vt": "date"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "ciao",
+        "payload": "Hello",
+        "payloadType": "str",
+        "x": 150,
+        "y": 200,
+        "wires": [
+            [
+                "6f75b4793ee85355"
+            ]
+        ]
+    },
+    {
+        "id": "24380507a326038a",
+        "type": "debug",
+        "z": "e06805297e78950e",
+        "name": "Print Msg!",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 580,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "6f75b4793ee85355",
+        "type": "function",
+        "z": "e06805297e78950e",
+        "name": "change cc and to",
+        "func": "var appoggio = msg.to\nmsg.to = msg.cc\nmsg.cc = appoggio\n\nmsg.payload = msg.payload + \" \" + msg.to\n\nif(msg.timestamp % 2 == 0) {\n    return [null,msg]\n}\nelse {\n    return [msg,null]\n}\nreturn [null,null]",
+        "outputs": 2,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 200,
+        "wires": [
+            [
+                "24380507a326038a"
+            ],
+            [
+                "d1709360c2819826"
+            ]
+        ]
+    },
+    {
+        "id": "d1709360c2819826",
+        "type": "e-mail",
+        "z": "e06805297e78950e",
+        "server": "smtps.aruba.it",
+        "port": "465",
+        "authtype": "BASIC",
+        "saslformat": false,
+        "token": "",
+        "secure": true,
+        "tls": true,
+        "name": "",
+        "dname": "Send Mail!",
+        "x": 590,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "d8a85511ae01688a",
+        "type": "inject",
+        "z": "76059dd59d7df63b",
+        "name": "Hello World!",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "cc",
+                "v": "simone.diienno@mail.polimi.it",
+                "vt": "str"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            },
+            {
+                "p": "to",
+                "v": "marco10.barbieri@mail.polimi.it",
+                "vt": "str"
+            },
+            {
+                "p": "timestamp",
+                "v": "",
+                "vt": "date"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "ciao",
+        "payload": "HELLO",
+        "payloadType": "str",
+        "x": 150,
+        "y": 200,
+        "wires": [
+            [
+                "3fe52fc45eef0fb2"
+            ]
+        ]
+    },
+    {
+        "id": "7c09ed657810ca34",
+        "type": "debug",
+        "z": "76059dd59d7df63b",
+        "name": "Print Msg!",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 600,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "3fe52fc45eef0fb2",
+        "type": "function",
+        "z": "76059dd59d7df63b",
+        "name": "set payloads to timestamps",
+        "func": "let timestamps = context.get(\"timestamps\");\n\ntimestamps.shift();\ntimestamps.push(msg.timestamp);\n\ntimestamps.forEach(insertTimestamps);\n\n\nfunction insertTimestamps(timestamp) {\n    if(timestamp != null) {\n        msg.payload = msg.payload + \" \" + timestamp; \n    }\n} \n\nreturn msg;\n\n\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "// Code added here will be run once\n// whenever the node is started.\n\nvar queue = [null,null,null];\ncontext.set(\"timestamps\", queue);\n",
+        "finalize": "",
+        "libs": [],
+        "x": 380,
+        "y": 200,
+        "wires": [
+            [
+                "7c09ed657810ca34",
+                "57dc2fd6f343ae9a"
+            ]
+        ]
+    },
+    {
+        "id": "57dc2fd6f343ae9a",
+        "type": "e-mail",
+        "z": "76059dd59d7df63b",
+        "server": "smtps.aruba.it",
+        "port": "465",
+        "authtype": "BASIC",
+        "saslformat": false,
+        "token": "",
+        "secure": true,
+        "tls": true,
+        "name": "",
+        "dname": "Send Mail!",
+        "x": 610,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "bc069dcd7fa91881",
+        "type": "debug",
+        "z": "b39ad806d78263cb",
+        "name": "debug 1",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 580,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "41e12314d8e191ee",
+        "type": "file",
+        "z": "b39ad806d78263cb",
+        "name": "",
+        "filename": "/data/temperature_log.txt",
+        "filenameType": "str",
+        "appendNewline": true,
+        "createDir": false,
+        "overwriteFile": "false",
+        "encoding": "none",
+        "x": 350,
+        "y": 240,
+        "wires": [
+            [
+                "bc069dcd7fa91881"
+            ]
+        ]
+    },
+    {
+        "id": "9ace6e4eda85f39e",
+        "type": "function",
+        "z": "b39ad806d78263cb",
+        "name": "extract temperature",
+        "func": "msg.payload = msg.payload.tempc\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 550,
+        "y": 140,
+        "wires": [
+            [
+                "41e12314d8e191ee"
+            ]
+        ]
+    },
+    {
+        "id": "d11548ff4d6adc7d",
+        "type": "inject",
+        "z": "b39ad806d78263cb",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "12",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 110,
+        "y": 140,
+        "wires": [
+            [
+                "f190ad4efc4067e6"
+            ]
+        ]
+    },
+    {
+        "id": "f190ad4efc4067e6",
+        "type": "openweathermap",
+        "z": "b39ad806d78263cb",
+        "name": "milan weather",
+        "wtype": "current",
+        "lon": "",
+        "lat": "",
+        "city": "Milan",
+        "country": "IT",
+        "language": "en",
+        "x": 320,
+        "y": 140,
+        "wires": [
+            [
+                "9ace6e4eda85f39e"
+            ]
+        ]
+    },
+    {
+        "id": "30ae71b74eb06415",
+        "type": "debug",
+        "z": "2809c54f484ce6d2",
+        "name": "debug 2",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 600,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "d001b564848a379b",
+        "type": "inject",
+        "z": "2809c54f484ce6d2",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "12",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 130,
+        "y": 180,
+        "wires": [
+            [
+                "9c397d6028315dc5"
+            ]
+        ]
+    },
+    {
+        "id": "9c397d6028315dc5",
+        "type": "file in",
+        "z": "2809c54f484ce6d2",
+        "name": "",
+        "filename": "/data/temperature_log.txt",
+        "filenameType": "str",
+        "format": "utf8",
+        "chunk": false,
+        "sendError": false,
+        "encoding": "none",
+        "allProps": false,
+        "x": 370,
+        "y": 180,
+        "wires": [
+            [
+                "30ae71b74eb06415"
+            ]
+        ]
+    },
+    {
+        "id": "7271852674772ff8",
+        "type": "udp in",
+        "z": "c4974ff7cb926127",
+        "name": "udp_in",
+        "iface": "",
+        "port": "5555",
+        "ipv": "udp4",
+        "multicast": "false",
+        "group": "",
+        "datatype": "utf8",
+        "x": 90,
+        "y": 220,
+        "wires": [
+            [
+                "e0e8c5db44e1168d"
+            ]
+        ]
+    },
+    {
+        "id": "e0e8c5db44e1168d",
+        "type": "udp out",
+        "z": "c4974ff7cb926127",
+        "name": "",
+        "addr": "",
+        "iface": "",
+        "port": "5556",
+        "ipv": "udp4",
+        "outport": "",
+        "base64": false,
+        "multicast": "false",
+        "x": 300,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "d744926ba64f72d1",
+        "type": "debug",
+        "z": "c4974ff7cb926127",
+        "name": "debug 3",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 300,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "e4f9897c4991270e",
+        "type": "udp out",
+        "z": "c4974ff7cb926127",
+        "name": "",
+        "addr": "127.0.0.1",
+        "iface": "",
+        "port": "5555",
+        "ipv": "udp4",
+        "outport": "",
+        "base64": false,
+        "multicast": "false",
+        "x": 590,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "86adc1d4681248dc",
+        "type": "inject",
+        "z": "c4974ff7cb926127",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 100,
+        "y": 140,
+        "wires": [
+            [
+                "5be09ecba270c369"
+            ]
+        ]
+    },
+    {
+        "id": "78dc9db84ba85f8c",
+        "type": "function",
+        "z": "c4974ff7cb926127",
+        "name": "function 4",
+        "func": "msg.payload = \"the temp Milan is \" + msg.payload.tempc;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 400,
+        "y": 140,
+        "wires": [
+            [
+                "e4f9897c4991270e"
+            ]
+        ]
+    },
+    {
+        "id": "3203d15c836037d8",
+        "type": "udp in",
+        "z": "c4974ff7cb926127",
+        "name": "",
+        "iface": "",
+        "port": "5556",
+        "ipv": "udp4",
+        "multicast": "false",
+        "group": "",
+        "datatype": "utf8",
+        "x": 100,
+        "y": 300,
+        "wires": [
+            [
+                "d744926ba64f72d1"
+            ]
+        ]
+    },
+    {
+        "id": "5be09ecba270c369",
+        "type": "openweathermap",
+        "z": "c4974ff7cb926127",
+        "name": "",
+        "wtype": "current",
+        "lon": "",
+        "lat": "",
+        "city": "Milan",
+        "country": "IT",
+        "language": "en",
+        "x": 250,
+        "y": 140,
+        "wires": [
+            [
+                "78dc9db84ba85f8c"
+            ]
+        ]
+    },
+    {
+        "id": "41ef418823ec2a5b",
+        "type": "comment",
+        "z": "c4974ff7cb926127",
+        "name": "echo server",
+        "info": "",
+        "x": 470,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "5ea39bb133ee5969",
+        "type": "comment",
+        "z": "c4974ff7cb926127",
+        "name": "receiver",
+        "info": "",
+        "x": 470,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "0077c55c4829779b",
+        "type": "comment",
+        "z": "c4974ff7cb926127",
+        "name": "sender",
+        "info": "",
+        "x": 770,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "6559c29559d9dfe9",
+        "type": "mqtt in",
+        "z": "385a8b55f9e851d4",
+        "name": "",
+        "topic": "/smartcity/milan",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "197b9301a5172daf",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 220,
+        "y": 120,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "23c171f2778caae9",
+        "type": "debug",
+        "z": "385a8b55f9e851d4",
+        "name": "debug 4",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 630,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "09c4aadfb08709cb",
+        "type": "function",
+        "z": "385a8b55f9e851d4",
+        "name": "function 5",
+        "func": "let sensorDataArray = msg.payload.sensordatavalues\nlet temp;\nsensorDataArray.forEach(parseSensorData);\n\nfunction parseSensorData(sensorData){\n    if(sensorData.value_type == \"temperature\") {\n        temp = context.get(\"temperature\");\n        context.set(\"temperature\",Math.max(Number(temp),Number(sensorData.value)))\n        \n    }\n\n}\nmsg.payload = context.get(\"temperature\");\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "// Code added here will be run once\n// whenever the node is started.\n\ncontext.set(\"temperature\", 0);\n",
+        "finalize": "",
+        "libs": [],
+        "x": 420,
+        "y": 160,
+        "wires": [
+            [
+                "23c171f2778caae9"
+            ]
+        ]
+    }
+]
